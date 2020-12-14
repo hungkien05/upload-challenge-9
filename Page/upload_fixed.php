@@ -1,5 +1,5 @@
 <?php
-require_once "dbconnect.php";
+require_once "../config.php";
 //check if form is submitted
 if (isset($_POST['submit']))
 {
@@ -9,10 +9,10 @@ if (isset($_POST['submit']))
     if($filename != '')
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        $allowed = ['pdf', 'txt', 'doc', 'docx', 'png', 'jpg', 'jpeg',  'gif', 'c'];
-    
-        //check if file type is valid
-        if (in_array($ext, $allowed))
+        $allowed = ['pdf', 'txt', 'doc', 'docx', 'png', 'jpg', 'jpeg',  'gif'];
+        $filename_pattern = "/^[\w]+$/";
+        //check if file name is valid
+        if (in_array($ext, $allowed) and preg_match($filename_pattern, $filename) and strlen($filename)<100)
         {
             // get last record id
             $sql = 'select max(id) as id from tbl_files';
@@ -26,7 +26,7 @@ if (isset($_POST['submit']))
                 $filename = '1' . '-' . $filename;
 
             //set target directory
-            $path = 'uploads/';
+            $path = '../uploads/';
                 
             $created = @date('Y-m-d H:i:s');
             if (move_uploaded_file($_FILES['file1']['tmp_name'],($path . $filename))){
@@ -34,18 +34,18 @@ if (isset($_POST['submit']))
                 echo $filename;
                 $sql = "INSERT INTO tbl_files (filename, created) VALUES('$filename', '$created')";
                 mysqli_query($con, $sql);
-                header("Location: index.php?st=success");
+                header("Location: ../index_fixed.php?st=success");
             } else {
                 echo "loi move_uploaded_file";
-                header("Location: index.php?st=error");
+                header("Location: ../index_fixed.php?st=error");
             }
         }    
         else
         {
-            header("Location: index.php?st=error");
+            header("Location: ../index_fixed.php?st=error");
         }
     }
     else
-        header("Location: index.php");
+        header("Location: ../index_fixed.php");
 }
 ?>

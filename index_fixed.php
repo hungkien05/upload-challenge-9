@@ -2,7 +2,10 @@
 include_once 'config.php';
 if(isset($_GET['page'])) {
     $page = $_GET['page'];
-    include('Page/'.$page);
+    if (strcmp($page, "about.php")) {
+        include('Page/'.$page);
+    }
+    else echo "Hack detected!!!";
 }
 // fetch files
 $sql = "SELECT filename FROM tbl_files";
@@ -22,7 +25,7 @@ $result = mysqli_query($con, $sql);
 <div class="container">
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2 well">
-            <form action="Page/upload.php" method="post" enctype="multipart/form-data">
+            <form action="Page/upload_fixed.php" method="post" enctype="multipart/form-data">
                 <legend>Select File to Upload:</legend>
                 <div class="form-group">
                     <input type="file" name="file1" />
@@ -40,13 +43,13 @@ $result = mysqli_query($con, $sql);
                         else
                         {
                             echo "<div class='alert alert-danger text-center'>";
-                            echo 'Invalid filename !';
+                            echo 'Invalid filename!';
                             echo "</div>";
                         } ?>
                     
                 <?php } ?>
             </form>
-            <a href="index.php?page=about.php">About me ?</a>
+            <a href="index_fixed.php?page=about.php">About me?</a>
         </div>
     </div>
     

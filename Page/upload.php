@@ -12,7 +12,7 @@ if (isset($_POST['submit']))
         $allowed = ['pdf', 'txt', 'doc', 'docx', 'png', 'jpg', 'jpeg',  'gif', 'c'];
     
         //check if file type is valid
-        if (in_array($ext, $allowed))
+        if (1==1)
         {
             // get last record id
             $sql = 'select max(id) as id from tbl_files';
